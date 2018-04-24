@@ -10,20 +10,12 @@ import {
 } from "react-native";
 
 var styles = StyleSheet.create({
-    // gridContainer: {
-    //     flex: 1,
-    //     alignSelf: "stretch",
-    //     flexWrap: "wrap",
-    //     flexDirection: "row"
-    // },
     item: {
 		flex: 1,
 		alignSelf: "stretch",
-		// padding: 16
 	},
 	content: {
 		flex: 1,
-		// backgroundColor: "red",
 		alignItems: "center",
 		justifyContent: "center"
 	},
@@ -52,8 +44,6 @@ export default class SudokuBoard extends Component {
             // Set intial width/height
             window: Dimensions.get("window")
         };
-
-        // this.componentWillReceiveProps = this.componentWillReceiveProps.bind(this);
     }
 
     // Create handler to update the state accordingly on screen size change
@@ -115,17 +105,12 @@ export default class SudokuBoard extends Component {
             height: squareSize,
             width: squareSize+1,    // Hack as 9 child elems per row slightly overflow to the next row
             alignSelf: 'stretch',
-            // backgroundColor: 'red'
-            // marginHorizontal: 0,
-            // marginVertical: 0
         }
         
         return (
-            // <View style={container}>
-                <ImageBackground source={require('./static_content/empty_grid.png')} style={gridContainer} >
-                    {renderedItems}
-                </ImageBackground>
-            // </View>
+            <ImageBackground source={require('./static_content/empty_grid.png')} style={gridContainer} >
+                {renderedItems}
+            </ImageBackground>
         );
     }
 }
