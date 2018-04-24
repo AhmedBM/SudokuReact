@@ -5,7 +5,8 @@ import {
     ImageBackground,
     StyleSheet,
     Text,
-    Dimensions
+    Dimensions,
+    StatusBar
 } from "react-native";
 
 var styles = StyleSheet.create({
@@ -28,7 +29,7 @@ var styles = StyleSheet.create({
 	},
 	text: {
 		color: "black",
-		fontSize: 13
+		fontSize: 26
 	}
 });
 
@@ -51,10 +52,17 @@ export default class SudokuBoard extends Component {
             // Set intial width/height
             window: Dimensions.get("window")
         };
+
+        // this.componentWillReceiveProps = this.componentWillReceiveProps.bind(this);
     }
 
     // Create handler to update the state accordingly on screen size change
     handler = dims => this.setState(dims);
+
+    // Update state from new prop values
+    componentWillReceiveProps(newProps) {
+        this.setState({board: newProps.board});
+    }
 
     componentWillMount() {
         Dimensions.addEventListener("change", this.handler);
@@ -73,7 +81,8 @@ export default class SudokuBoard extends Component {
         var height = Math.round(state.window.height);
         var squareSize = Math.min(width, height) + 1;
         if (width > height) {
-            // Lanscape - RN includes the status bar in the height, remove it
+            // Lanscape - RN includes the status bar in the height
+            squareSize -= StatusBar.currentHeight;
         }
 
         var marginHorizontal = 0;
@@ -84,10 +93,8 @@ export default class SudokuBoard extends Component {
         var itemStyle = {
             width: size,
             height: size,
-            // marginHorizontal: 0,
-            // marginVertical: 0
         };
-
+        
         var renderedItems = state.board.map(function (item, index) {
             return (
                 <View key={index} style={itemStyle}>
@@ -96,21 +103,29 @@ export default class SudokuBoard extends Component {
             );
         });
 
-        var gridContainer = {
-            // flex: 0,
-            flexDirection: "row",
-            // flexBasis: squareSize,
-            flexWrap: "wrap",
+        var container = {
             height: squareSize,
             width: squareSize,
-            // alignItems: 'stretch',
-            // backgroundColor: 'red'
         }
-
+        var gridContainer = {
+            // flex: 1,
+            flexDirection: "row",
+            // flexBasis: squareSize+1,
+            flexWrap: "wrap",
+            height: squareSize,
+            width: squareSize+1,    // Hack as 9 child elems per row slightly overflow to the next row
+            alignSelf: 'stretch',
+            // backgroundColor: 'red'
+            // marginHorizontal: 0,
+            // marginVertical: 0
+        }
+        
         return (
-            <ImageBackground source={require('./static_content/empty_grid.png')} style={gridContainer} >
-                {renderedItems}
-            </ImageBackground>
+            // <View style={container}>
+                <ImageBackground source={require('./static_content/empty_grid.png')} style={gridContainer} >
+                    {renderedItems}
+                </ImageBackground>
+            // </View>
         );
     }
 }
