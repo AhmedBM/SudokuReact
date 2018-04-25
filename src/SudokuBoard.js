@@ -8,6 +8,7 @@ import {
     Dimensions,
     StatusBar
 } from "react-native";
+import PriorityQueue from 'es-collections';
 
 var styles = StyleSheet.create({
     item: {
@@ -108,11 +109,13 @@ export default class SudokuBoard extends Component {
         }
         
         return (
-            <ImageBackground source={require('./static_content/empty_grid.png')} style={gridContainer} >
+            <ImageBackground source={require('./../static_content/empty_grid.png')} style={gridContainer} >
                 {renderedItems}
             </ImageBackground>
         );
     }
+
+    
 }
 
 SudokuBoard.propTypes = {

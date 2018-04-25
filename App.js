@@ -1,6 +1,6 @@
 /**
  * React Native Sudoku App
- * https://github.com/facebook/react-native
+ * https://github.com/AhmedBM/SudokuReact
  */
 
 import React, { Component } from 'react';
@@ -13,7 +13,7 @@ import {
     StyleSheet,
     Dimensions
 } from 'react-native';
-import SudokuBoard from './SudokuBoard'
+import SudokuBoard from './src/SudokuBoard'
 
 // NOTE: You may add additional Sudoku Boards here
 var SudokuBoards = [

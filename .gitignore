@@ -61,3 +61,6 @@ buck-out/
 
 # Yarn lock files
 yarn.lock
+
+# npm lock files
+package-lock.json
