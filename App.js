@@ -77,6 +77,7 @@ export default class SudokuApp extends Component {
 
     onPressSolve() {
         // TODO: wire up function in SudokuBoard
+        this.sudokuBoard.solveBoard();
     }
 
     // Create handler to update the state accordingly on screen size change
@@ -105,7 +106,7 @@ export default class SudokuApp extends Component {
 
         return (
             <View style={rootViewStyle}>
-                <SudokuBoard board={SudokuBoards[this.state.selected]} />
+                <SudokuBoard onRef={ref => (this.sudokuBoard = ref)} board={SudokuBoards[this.state.selected]} />
                 <View style={styles.innerContainer}>
                     <View style={styles.labelPicker}>
                         <Text style={styles.pickerLabel}>Selected Board: </Text>

@@ -8,7 +8,7 @@ import {
     Dimensions,
     StatusBar
 } from "react-native";
-import PriorityQueue from 'es-collections';
+import { solvePuzzle } from "./SudokuLogic";
 
 var styles = StyleSheet.create({
     item: {
@@ -57,11 +57,17 @@ export default class SudokuBoard extends Component {
 
     componentWillMount() {
         Dimensions.addEventListener("change", this.handler);
+        this.props.onRef(this)
     }
 
     componentWillUnmount() {
       // Important to stop updating state after unmount
       Dimensions.removeEventListener("change", this.handler);
+      this.props.onRef(undefined)
+    }
+
+    solveBoard() {
+        this.setState({board: solvePuzzle(this.state.board)});
     }
 
     render() {

@@ -7,10 +7,10 @@
         "test": "jest"
     },
     "dependencies": {
-        "js-priority-queue": "^0.1.5",
         "prop-types": "^15.6.1",
         "react": "16.3.1",
         "react-native": "0.55.3",
+        "tinyqueue": "^1.2.3"
     },
     "devDependencies": {
         "babel-jest": "22.4.3",

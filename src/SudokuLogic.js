@@ -1,5 +1,5 @@
 // Sudoku Logic //
-import { PriorityQueue } from 'js-priority-queue';
+import TinyQueue from 'tinyqueue';
 
 function filterZeros(val) {
     return val > 0;
@@ -15,41 +15,42 @@ export const solvePuzzle = (arr) => {
     var cellResult = [];
     while (pq.length) {
         // Solve for value
-        value = pq.dequeue();
+        value = pq.pop();
         cellResult = getPossibleCellValues(arr, value.x, value.y);
         if (cellResult.length === 1) {
             // We have a unique value, that is our answer
             arr[value.x + (value.y * 9)] = cellResult[0];
             ++solvedSinceLastScore;
-            console.log("==== Solved for (${value.x},${value.y}) = ${cellResult[0]}");
+            // console.log(`==== Solved for (${value.x},${value.y}) = ${cellResult[0]} --- solvedSinceLastScore: ${solvedSinceLastScore}`);
         } else {
             // Non-unique or zero results, rescore if we hit the threshold
-            if (++failedResults === rescoreThreshold) {
+            if (failedResults === rescoreThreshold) {
+                // console.log("==== Failed 3x - rescoring");
                 scoreCells(arr);
                 solvedSinceLastScore = 0;
                 failedResults = 0;
-            } else {
-                // Since we did not solve, put back into queue with lower score
-                // so we can solve that cell later
-                value.score /= 2;
-                pq.queue(value);
             }
+            
+            // Since we did not solve, put back into queue with lower score
+            // so we can solve that cell later
+            value.score /= 2;
+            pq.push(value);
         }
     }
-    // Score cells
-    // Pop cells and solve, if cannot solve 3 different ones, re-score
+    
+    // console.log(`PUZZLE ${arr}`);
     return arr;
 };
 
 // Scores cells to figure out what order to solve the Sudoku Puzzle
 export const scoreCells = (arr) => {
-    var pq = new PriorityQueue({ comparator: function(a, b) { return b - a; }});
+    var pq = new TinyQueue(null, (a, b) => b.score - a.score);
 
     for (var x = 0; x < 9; ++x) {
         for (var y = 0; y < 9; ++y) {
             if (arr[x + (y * 9)] === 0) {
                 // Unsolved, score cell
-                pq.queue({
+                pq.push({
                     x: x,
                     y: y,
                     score: getRowValues(arr, x, y).length + getColumnValues(arr, x, y).length + getSquareValues(arr, x, y).length
