@@ -106,7 +106,7 @@ export default class SudokuApp extends Component {
 
         return (
             <View style={rootViewStyle}>
-                <SudokuBoard onRef={ref => (this.sudokuBoard = ref)} board={SudokuBoards[this.state.selected]} />
+                <SudokuBoard onRef={ref => (this.sudokuBoard = ref)} board={SudokuBoards[this.state.selected].slice()} />
                 <View style={styles.innerContainer}>
                     <View style={styles.labelPicker}>
                         <Text style={styles.pickerLabel}>Selected Board: </Text>
